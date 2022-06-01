@@ -8,5 +8,6 @@ router.put('/id/:_id',authentication,isAuthor,PostController.update);
 router.delete('/id/:_id',authentication, PostController.delete);
 router.get('/id/:_id',PostController.getPostById);
 router.get('/title/:title',PostController.getPostByTitle);
+// router.get('/postWithUserByTitle/:title',PostController.getPostWithUserByTitle);
 
 module.exports = router

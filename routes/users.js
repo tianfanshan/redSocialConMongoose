@@ -14,6 +14,7 @@ router.get('/currentUser/:_id',UserController.getCurrentUser);
 router.get('/id/:_id',UserController.getUserById);
 router.get('/name/:name',UserController.getUserByName);
 router.get('/confirm/:email',UserController.confirm);
+router.get('/userName/:name',authentication,UserController.getUserLogged);
 
 
 

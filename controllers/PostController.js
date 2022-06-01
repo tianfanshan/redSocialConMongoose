@@ -1,4 +1,5 @@
 const Post = require('../models/Post')
+const User = require('../models/User')
 
 const PostController ={
     async create(req,res){
@@ -53,7 +54,19 @@ const PostController ={
         } catch (error) {
             console.error(error)
         }
-    }
+    },
+    // async getPostWithUserByTitle(req,res){
+    //     try {
+    //         if(req.params.title.length > 20){
+    //             return res.status(400).send('Busqueda demasiado larga')
+    //         }
+    //         const title = new RegExp(req.params.title,"i");
+    //         const post = await Post.find({title},{include:[User]}).limit(10);
+    //         res.status(200).send({post})
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // },
 }
 
 module.exports = PostController;

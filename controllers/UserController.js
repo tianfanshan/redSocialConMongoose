@@ -117,6 +117,19 @@ const UserController = {
             console.error(error)
         }
     },
+    // async getUserLogged(req,res){
+    //     try {
+    //         if(req.params.name.length > 20){
+    //             return res.status(400).send('Busqueda demasiado larga')
+    //         }
+    //         const name = new RegExp(req.user.name,"i");
+    //         const user = await User.find({name});
+    //         res.statu(200).send({message:"Usuario encontrado",user})
+    //     } catch (error) {
+    //         console.log(error)
+    //         res.send("algo no va bien")
+    //     }
+    // },
     async logout(req,res){
         try {
             const user = await User.findByIdAndUpdate(req.user._id,{
