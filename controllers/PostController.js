@@ -47,8 +47,8 @@ const PostController ={
             if(req.params.title.length > 20){
                 return res.status(400).send('Busqueda demasiado larga')
             }
-            const title = new RegExp(req.params.title,"i")
-            const post = await Post.findOne({title})
+            const title = new RegExp(req.params.title,"i");
+            const post = await Post.find({title}).limit(10);
             res.status(200).send({post})
         } catch (error) {
             console.error(error)
