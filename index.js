@@ -1,9 +1,7 @@
 const express = require('express');
 const { dbConnection } = require('./config/config');
-const app = express()
-const router = express.Router();
+const app = express();
 const PORT = 8080;
-const secret_jwt_code = "psmR3HuOihHKfqZymolm"
 
 app.use(express.json())
 

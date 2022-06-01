@@ -26,8 +26,8 @@ const UserController = {
             // })
             res.status(201).send({message:"Te hemos enviado un correo para confirmar el registro",user})
         } catch (error) {
-            error.origin='User'
-            next(error)
+            // error.origin='User'
+            // next(error)
             res.status(500).send({message:"Ha habido un problema al crear el usuario"})
         }
     },
@@ -91,7 +91,7 @@ const UserController = {
     },
     async getCurrentUser(req,res){
         try {
-            const user = await User.findById(req.params._id)
+            const user = await User.find(req.user._id)
             res.status(200).send({message:"El usuario connectado",user})
         } catch (error) {
             console.error(error)
@@ -122,8 +122,10 @@ const UserController = {
     //         if(req.params.name.length > 20){
     //             return res.status(400).send('Busqueda demasiado larga')
     //         }
-    //         const name = new RegExp(req.user.name,"i");
+    //         const name = new RegExp(req.params.name,"i");
+    //         console.log(name)
     //         const user = await User.find({name});
+    //         console.log(user)
     //         res.statu(200).send({message:"Usuario encontrado",user})
     //     } catch (error) {
     //         console.log(error)
