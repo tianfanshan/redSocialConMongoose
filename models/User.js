@@ -20,12 +20,17 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    confirmed:{
+        type:String,
+        default:false
+    },
     age:{
         type:Number,
         required:true
     },
     role:{
-        type:String
+        type:String,
+        default:"user"
     }
 },{timestamps:true});
 

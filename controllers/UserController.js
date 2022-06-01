@@ -1,8 +1,12 @@
-const User = require('../models/User')
-const bcrypt = require('bcrypt')
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const transporter = require('../config/nodemailer');
+const jwt = require('jsonwebtoken');
+const { jwt_secret } = require('../config/keys');
+const Token = require('../models/Token');
 
 const UserController = {
-    async create(req,res){
+    async create(req,res,next){
         try {
             req.body.role = 'user';
             const password = bcrypt.hashSync(req.body.password,10)
@@ -11,11 +15,29 @@ const UserController = {
                 password:password,
                 confirme:false,
                 role:"user"
+            });
+            const url = 'http://localhost:8080/users/confirm/'+req.body.email
+            await transporter.sendMail({
+                to:req.body.email,
+                subject:"Confirme su registro",
+                html:`<h3>Bienvenido, estás a un paso de registrarte<h3>
+                <a href="${url}">Click para confirmar tu registro<a>`
             })
-            res.status(201).send(user)
+            res.status(201).send({message:"Te hemos enviado un correo para confirmar el registro",user})
+        } catch (error) {
+            error.origin='User'
+            next(error)
+            res.status(500).send({message:"Ha habido un problema al crear el usuario"})
+        }
+    },
+    async confirm(req,res){
+        try {
+            const user = await User.updateOne({confirmed:true},{
+                email:req.params.email
+            })
+            res.status(201).send('Usuario confirmado con éxito');
         } catch (error) {
             console.error(error)
-            res.status(500).send({message:"Ha habido un problema al crear el usuario"})
         }
     },
     async login(req,res){
@@ -28,6 +50,11 @@ const UserController = {
           if(!isMatch){
               return res.status(400).send({message:"Usuario o contraseña incorrectos"})
           }
+          if(!user.confirmed){
+              return res.status(400).send({message:"Debes confirmar tu correo"})
+          }
+          token = jwt.sign({id:user.id},jwt_secret);
+          Token.create({token,UserId:user._id})
           return res.send(user)
       } catch (error) {
         res.status(500).send({message:"Ha habido un problema"})
