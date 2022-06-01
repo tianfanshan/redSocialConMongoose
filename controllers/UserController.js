@@ -117,15 +117,17 @@ const UserController = {
             console.error(error)
         }
     },
-    // async logout(req,res){
-    //     try {
-    //         const user = await User.findByIdAndDelete(req.params._id)
-    //         res.status(200).send({user,message:"Usuario deconectado!"})
-    //     } catch (error) {
-    //         console.error(error)
-    //         res.status(500).send({message:"Ha habido un problema al desconectar el usuario"})
-    //     }
-    // },
+    async logout(req,res){
+        try {
+            const user = await User.findByIdAndUpdate(req.user._id,{
+                $pull:{tokens: req.headers.authorization},
+            });
+            res.status(200).send({user,message:"Usuario deconectado!"})
+        } catch (error) {
+            console.error(error)
+            res.status(500).send({message:"Ha habido un problema al desconectar el usuario"})
+        }
+    }
     
 }
 

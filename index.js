@@ -9,6 +9,7 @@ app.use(express.json())
 
 dbConnection()
 
-app.use('/users',require('./routes/users'))
+app.use('/users',require('./routes/users'));
+app.use('/posts',require('./routes/posts'));
 
 app.listen(PORT,console.log(`Servidor levantado por ${PORT}`));
