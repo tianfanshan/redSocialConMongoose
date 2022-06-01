@@ -3,26 +3,27 @@ const bcrypt = require('bcrypt');
 const transporter = require('../config/nodemailer');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/keys');
-const Token = require('../models/Token');
 
 const UserController = {
     async create(req,res,next){
         try {
             req.body.role = 'user';
             const password = bcrypt.hashSync(req.body.password,10)
+            console.log(password)
             const user = await User.create({
                 ...req.body,
                 password:password,
-                confirme:false,
+                confirmed:false,
                 role:"user"
             });
-            const url = 'http://localhost:8080/users/confirm/'+req.body.email
-            await transporter.sendMail({
-                to:req.body.email,
-                subject:"Confirme su registro",
-                html:`<h3>Bienvenido, estás a un paso de registrarte<h3>
-                <a href="${url}">Click para confirmar tu registro<a>`
-            })
+            console.log(user)
+            // const url = 'http://localhost:8080/users/confirm/'+req.body.email
+            // await transporter.sendMail({
+            //     to:req.body.email,
+            //     subject:"Confirme su registro",
+            //     html:`<h3>Bienvenido, estás a un paso de registrarte<h3>
+            //     <a href="${url}">Click para confirmar tu registro<a>`
+            // })
             res.status(201).send({message:"Te hemos enviado un correo para confirmar el registro",user})
         } catch (error) {
             error.origin='User'
@@ -53,9 +54,11 @@ const UserController = {
           if(!user.confirmed){
               return res.status(400).send({message:"Debes confirmar tu correo"})
           }
-          token = jwt.sign({id:user.id},jwt_secret);
-          Token.create({token,UserId:user._id})
-          return res.send(user)
+          token = jwt.sign({_id:user._id},jwt_secret);
+          if(user.tokens.length > 4) user.tokens.shift();
+          user.tokens.push(token);
+          await user.save();
+          return res.send({message:"Bienvenido@"+user.name,token})
       } catch (error) {
         res.status(500).send({message:"Ha habido un problema"})
       }  
