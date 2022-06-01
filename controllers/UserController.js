@@ -96,7 +96,7 @@ const UserController = {
         } catch (error) {
             console.error(error)
         }
-    },
+    },/**este no tiene que funcionar asi*/
     async getUserById(req,res){
         try {
             const user = await User.findById(req.params._id)
