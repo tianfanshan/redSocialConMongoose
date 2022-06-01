@@ -11,6 +11,7 @@ const PostController ={
             res.status(201).send(post)
         } catch (error) {
             console.error(error)
+            res.status(500).send({message:"Ha habido parado un problema al crear post"})
         }
     },
     async update(req,res){
@@ -33,6 +34,26 @@ const PostController ={
             console.error(error)
         }
     },
+    async getPostById(req,res){
+        try {
+            const post = await Post.findById(req.params._id)
+            res.status(200).send(post)
+        } catch (error) {
+            console.error(error)
+        }
+    },
+    async getPostByTitle(req,res){
+        try {
+            if(req.params.title.length > 20){
+                return res.status(400).send('Busqueda demasiado larga')
+            }
+            const title = new RegExp(req.params.title,"i")
+            const post = await Post.findOne({title})
+            res.status(200).send({post})
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }
 
 module.exports = PostController;

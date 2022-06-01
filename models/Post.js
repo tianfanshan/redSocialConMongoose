@@ -3,10 +3,12 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new mongoose.Schema({
     title:{
-        type:String
+        type:String,
+        required:true
     },
     userName:{
-        type:String
+        type:String,
+        required:true
     },
     userId:{
         type:ObjectId,
