@@ -1,29 +1,20 @@
 const mongoose = require('mongoose');
 
-// const validationEmail = UserSchema.path('email').validate(function(email){
-//     let emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-//     return emailRegex.text(email.text);
-// },'El campo del correo no puede esar vacio.')
 
 const UserSchema = new mongoose.Schema({
-    // activation_token:{
-    //     type:String,
-    //     default:function(){
-    //         return randToken.generate(64);
-    //     }
-    // },
     name:{
         type:String,
-        required:[true,'Porfavor llena el campo vacio']
+        required:[true,'Por favor rellena tu nombre']
     },
     email:{
         type:String,
-        unique: [true,'Porfavor llena el campo vacio'],
-        required: true
+        match:[/.+\@.+\.+/,'Este correo no es válido'],
+        unique: true,
+        required: [true,'Por favor rellen tu correo']
     },
     password:{
         type:String,
-        required:[true,'Porfavor llena el campo vacio']
+        required:[true,'Por favor rellena tu contraseña']
     },
     confirmed:{
         type:String,

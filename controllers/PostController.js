@@ -67,6 +67,17 @@ const PostController ={
     //         console.error(error)
     //     }
     // },
+    async getAll(req,res){
+        try {
+            const { page = 1 ,limit = 10 } = req.query;
+            const post = await Post.find()
+            .limit(limit *1)
+            .skip((page - 1) * limit);
+            res.send(post)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }
 
 module.exports = PostController;

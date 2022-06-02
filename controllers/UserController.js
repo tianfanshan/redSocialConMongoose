@@ -9,14 +9,12 @@ const UserController = {
         try {
             req.body.role = 'user';
             const password = bcrypt.hashSync(req.body.password,10)
-            console.log(password)
             const user = await User.create({
                 ...req.body,
                 password:password,
                 confirmed:false,
                 role:"user"
             });
-            console.log(user)
             // const url = 'http://localhost:8080/users/confirm/'+req.body.email
             // await transporter.sendMail({
             //     to:req.body.email,
@@ -26,9 +24,8 @@ const UserController = {
             // })
             res.status(201).send({message:"Te hemos enviado un correo para confirmar el registro",user})
         } catch (error) {
-            // error.origin='User'
-            // next(error)
-            res.status(500).send({message:"Ha habido un problema al crear el usuario"})
+            error.origin='User'
+            next(error)
         }
     },
     async confirm(req,res){
@@ -91,12 +88,13 @@ const UserController = {
     },
     async getCurrentUser(req,res){
         try {
-            const user = await User.find(req.user._id)
+            const user = await User.find(req.user)
             res.status(200).send({message:"El usuario connectado",user})
         } catch (error) {
             console.error(error)
+            res.send(error)
         }
-    },/**este no tiene que funcionar asi*/
+    },
     async getUserById(req,res){
         try {
             const user = await User.findById(req.params._id)
