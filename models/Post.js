@@ -4,11 +4,11 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 const UserSchema = new mongoose.Schema({
     title:{
         type:String,
-        required:true
+        required:[true,'Tienes que añadir un titulo para seguir']
     },
     userName:{
         type:String,
-        required:true
+        required:[true,'Tu nombre para hacer el post']
     },
     userId:{
         type:ObjectId,

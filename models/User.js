@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+// const validationEmail = UserSchema.path('email').validate(function(email){
+//     let emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+//     return emailRegex.text(email.text);
+// },'El campo del correo no puede esar vacio.')
+
 const UserSchema = new mongoose.Schema({
     // activation_token:{
     //     type:String,
@@ -9,16 +14,16 @@ const UserSchema = new mongoose.Schema({
     // },
     name:{
         type:String,
-        required:true
+        required:[true,'Porfavor llena el campo vacio']
     },
     email:{
         type:String,
-        unique: true,
+        unique: [true,'Porfavor llena el campo vacio'],
         required: true
     },
     password:{
         type:String,
-        required:true
+        required:[true,'Porfavor llena el campo vacio']
     },
     confirmed:{
         type:String,
@@ -26,7 +31,7 @@ const UserSchema = new mongoose.Schema({
     },
     age:{
         type:Number,
-        required:true
+        required:[true,'Cuantos años tienes?']
     },
     role:{
         type:String,
