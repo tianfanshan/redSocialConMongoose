@@ -7,7 +7,6 @@ const { jwt_secret } = require('../config/keys');
 const UserController = {
     async create(req,res,next){
         try {
-            req.body.role = 'user';
             const password = bcrypt.hashSync(req.body.password,10)
             const user = await User.create({
                 ...req.body,
@@ -15,15 +14,17 @@ const UserController = {
                 confirmed:false,
                 role:"user"
             });
-            // const url = 'http://localhost:8080/users/confirm/'+req.body.email
+            // const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'28h'})
+            // const url = 'http://localhost:8080/users/confirm/'+emailToken
             // await transporter.sendMail({
             //     to:req.body.email,
             //     subject:"Confirme su registro",
-            //     html:`<h3>Bienvenido, estás a un paso de registrarte<h3>
-            //     <a href="${url}">Click para confirmar tu registro<a>`
+            //     html:`<h3>Bienvenido, estás a un paso de registrarte</h3>
+            //     <a href="${url}">Click para confirmar tu registro</a>`,
             // })
             res.status(201).send({message:"Te hemos enviado un correo para confirmar el registro",user})
         } catch (error) {
+            console.log(error)
             error.origin='User'
             next(error)
         }

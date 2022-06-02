@@ -43,13 +43,46 @@ const PostController ={
             console.error(error)
         }
     },
-    async getPostByTitle(req,res){
+    async likes(req,res){
         try {
-            if(req.params.title.length > 20){
+            // let includeLikes = await req.user.favorites.includes(req.user._id)
+            // console.log(includeLikes)
+            // if(includeLikes){
+            //     res.send('Ya has dado el like')
+            // }
+            // console.log(likes)
+            const post1 = await Post.findById(req.params._id);
+            if(post1.likes.includes(req.user._id)){
+                return res.send('Ya has dado el like')
+            }
+            const post =await Post.findByIdAndUpdate(
+                req.params._id,
+                {$push:{likes:req.user._id}},
+                {new:true})    
+            console.log(post.likes)
+            // if(post.likes.includes(req.user._id)){
+            //     post.likes.pop()
+            //     return res.send('Ya has dado el like')
+            // }
+            
+            await User.findByIdAndUpdate(
+                req.user._id,
+                {$push:{favorites:req.params._id}},
+                {new:true}
+            );
+            res.send(post)
+        } catch (error) {
+            console.error(error)
+            res.status(500).send({message:'Ha habido un problema con tu like'})
+        }
+    },
+    async getPostByBody(req,res){
+        try {
+            if(req.params.body.length > 20){
                 return res.status(400).send('Busqueda demasiado larga')
             }
-            const title = new RegExp(req.params.title,"i");
-            const post = await Post.find({title}).limit(10);
+            const body = new RegExp(req.params.body,"i");
+            const post = await Post.find({body}).limit(10);
             res.status(200).send({post})
         } catch (error) {
             console.error(error)

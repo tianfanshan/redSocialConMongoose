@@ -28,7 +28,9 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:"user"
     },
-    tokens:[]
+    tokens:[],
+    postIds:[{type:Object,ref:'Post'}],
+    favorites:[{type:Object,ref:'Post'}]
 },{timestamps:true});
 
 const User = mongoose.model('User',UserSchema);
