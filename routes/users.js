@@ -7,7 +7,7 @@ const { authentication, isAdmin, isAuthor } = require('../middleware/authenticat
 router.post('/',UserController.create);
 router.put('/id/:_id',authentication,UserController.update);
 router.delete('/id/:_id',authentication,isAdmin, UserController.delete);
-router.get('/',authentication,isAdmin,isAuthor,UserController.getAll);
+router.get('/',authentication,isAdmin,UserController.getAll);
 router.post('/login',UserController.login);
 router.put('/logout',authentication, UserController.logout);
 router.get('/currentUser',authentication,UserController.getCurrentUser);

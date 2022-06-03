@@ -1,4 +1,5 @@
 const Post = require('../models/Post')
+const { populate } = require('../models/User')
 const User = require('../models/User')
 
 const PostController ={
@@ -43,6 +44,7 @@ const PostController ={
     async getPostById(req,res){
         try {
             const post = await Post.findById(req.params._id)
+            .populate({path:'commentIds',populate:{path:'userId'}})
             res.status(200).send(post)
         } catch (error) {
             console.error(error)

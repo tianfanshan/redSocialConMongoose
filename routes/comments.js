@@ -4,6 +4,6 @@ const CommentController = require('../controllers/CommentController');
 const { authentication, isAuthor } = require('../middleware/authentication');
 
 
-router.post('/:_id',authentication,CommentController.create);
+router.post('/',authentication,CommentController.create);
 
 module.exports = router;
