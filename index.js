@@ -2,9 +2,8 @@ const express = require('express');
 const { TypeError } = require('./middleware/errors');
 const { dbConnection } = require('./config/config');
 const app = express();
-// const PORT = 8080;
 require('dotenv').config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3010;
 
 app.use(express.json())
 
@@ -12,6 +11,7 @@ dbConnection()
 
 app.use('/users',require('./routes/users'));
 app.use('/posts',require('./routes/posts'));
+app.use('/comments',require('./routes/comments'));
 
 app.use(TypeError)
 
