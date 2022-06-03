@@ -11,10 +11,6 @@ const PostSchema = new mongoose.Schema({
         required:[true,'Tu nombre para hacer el post']
     },
     userId:{type:ObjectId,ref:'User'},
-    // comments:[{
-    //     type:ObjectId,
-    //     ref:'Comment'
-    // }],
     likes:[{type:ObjectId,ref:'User'}]
 },{timestamps:true});
 

@@ -8,8 +8,9 @@ router.put('/id/:_id',authentication,isAuthor,PostController.update);
 router.delete('/id/:_id',authentication, PostController.delete);
 router.get('/id/:_id',PostController.getPostById);
 router.get('/title/:title',PostController.getPostByBody);
-// router.get('/postWithUserByTitle/:title',PostController.getPostWithUserByTitle);
+router.get('/postWithUserByBody/:body',PostController.getPostWithUserByBody);
 router.get('/',PostController.getAll);
-router.put('/likes/:_id',authentication,PostController.likes)
+router.put('/likesUp/:_id',authentication,PostController.likesUp);
+router.put('/likesDown/:_id',authentication,PostController.likesDown);
 
 module.exports = router

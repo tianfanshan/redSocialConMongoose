@@ -3,14 +3,8 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const CommentSchema = new mongoose.Schema({
     comment:String,
-    userId:{
-        type:ObjectId,
-        ref:'User'
-    },
-    postId:{
-        type:ObjectId,
-        ref:'Post'
-    },
+    userId:{type:ObjectId,ref:'User'},
+    postId:{type:ObjectId,ref:'Post'},
 },{timestamps:true});
 
 const Comment = mongoose.model('Comment',CommentSchema);
