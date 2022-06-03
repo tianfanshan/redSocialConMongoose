@@ -2,7 +2,9 @@ const express = require('express');
 const { TypeError } = require('./middleware/errors');
 const { dbConnection } = require('./config/config');
 const app = express();
-const PORT = 8080;
+// const PORT = 8080;
+require('dotenv').config();
+const PORT = process.env.PORT;
 
 app.use(express.json())
 
