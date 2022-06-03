@@ -63,10 +63,6 @@ const PostController ={
                 {$push:{likes:req.user._id}},
                 {new:true})    
             console.log(post.likes)
-            // if(post.likes.includes(req.user._id)){
-            //     post.likes.pop()
-            //     return res.send('Ya has dado el like')
-            // }
             const user = await User.findByIdAndUpdate(
                 req.user._id,
                 {$push:{favorites:req.params._id}},

@@ -34,6 +34,14 @@ const UserSchema = new mongoose.Schema({
     favorites:[{type:Object,ref:'Post'}]
 },{timestamps:true});
 
+UserSchema.methods.toJSON = function(){
+    const user = this._doc;
+    delete user.tokens;
+    delete user.password;
+    delete user.email;
+    return user;
+}
+
 const User = mongoose.model('User',UserSchema);
 
 module.exports = User;
