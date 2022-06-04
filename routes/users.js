@@ -15,6 +15,7 @@ router.get('/id/:_id', UserController.getUserById);
 router.get('/name/:name',UserController.getUserByName);
 router.get('/confirm/:emailToken',UserController.confirm);
 // router.get('/userName/:name',authentication,UserController.getUserLogged);
+router.put('/followerId/:_id',authentication,UserController.follower);
 
 
 

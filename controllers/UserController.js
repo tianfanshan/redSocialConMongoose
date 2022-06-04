@@ -142,8 +142,36 @@ const UserController = {
             console.error(error)
             res.status(500).send({message:"Ha habido un problema al desconectar el usuario"})
         }
+    },
+    async follower(req,res){
+        try {
+            // if(req.body.name.length > 20){
+            //     return res.status(400).send('Busqueda demasiado larga')
+            // }
+            // // const name = new RegExp(req.body.name,"i");
+            // const user = await User.findById(req.params._id)
+            const user = await User.findById(req.params._id)
+            console.log(user.followers)
+            if(user.followers.includes(req.user._id)){
+                return res.send('Ya estas siguiendo al usuario')
+            }
+            const follower1 = await User.findByIdAndUpdate(
+                req.params._id,
+                {$push:{followers:req.user._id}},
+                {new:true}
+            )
+            console.log(follower1)
+            const following1 = await User.findByIdAndUpdate(
+                req.user._id,
+                {$push:{followings:req.params._id}},
+                {new:true}
+            )
+            res.send({follower1,following1})
+        } catch (error) {
+            console.error(error)
+            res.send('Ha pasado algo al seguir usuario')
+        }
     }
-    
 }
 
 module.exports = UserController;
