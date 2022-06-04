@@ -1,15 +1,21 @@
 const Post = require('../models/Post')
 const { populate } = require('../models/User')
 const User = require('../models/User')
-
+const { post } = require('../routes/users')
+const { user } = require('../models/User')
+ 
 const PostController ={
     async create(req,res){
         try {
             const post = await Post.create({
                 ...req.body,
                 daliveryDate:new Date(),
-                userId:req.user._id
+                userId:req.user._id,
             })
+            await User.findByIdAndUpdate(
+                req.user._id,
+                {$push:{postIds:post._id}},
+            )
             res.status(201).send(post)
         } catch (error) {
             console.error(error)

@@ -155,21 +155,75 @@ const UserController = {
             if(user.followers.includes(req.user._id)){
                 return res.send('Ya estas siguiendo al usuario')
             }
-            const follower1 = await User.findByIdAndUpdate(
+            const follower = await User.findByIdAndUpdate(
                 req.params._id,
                 {$push:{followers:req.user._id}},
                 {new:true}
             )
-            console.log(follower1)
-            const following1 = await User.findByIdAndUpdate(
+            await User.findByIdAndUpdate(
                 req.user._id,
                 {$push:{followings:req.params._id}},
                 {new:true}
             )
-            res.send({follower1,following1})
+            res.send(follower)
         } catch (error) {
             console.error(error)
-            res.send('Ha pasado algo al seguir usuario')
+            res.send('Disculpe pos las molestias intenta dentro de 5 minutos...')
+        }
+    },
+    async followerOut(req,res){
+        try {
+            const user = await User.findById(req.params._id)
+            console.log(user)
+            if(!user.followers.includes(req.user._id)){
+                return res.send('No tienes seguido a este usuario')
+            }
+            const follower = await User.findByIdAndUpdate(
+                req.params._id,
+                {$pull:{followers:req.user._id}},
+                {new:true}
+            )
+            await User.findByIdAndUpdate(
+                req.user._id,
+                {$pull:{followings:req.params._id}},
+                {new:true}
+            )
+            res.send(follower)
+        } catch (error) {
+            console.error(error)
+            res.send('No es culpa tuya, estamos en ello...')
+        }
+    },
+    async UserPostFollowerNumber(req,res){
+        try {
+            const user = await User.findById(req.user._id)
+            .populate('postIds')
+            const userName = await user.name
+            const post = await user.postIds
+            const followers = await user.followers.length
+            res.send({userName,post,followers})
+        } catch (error) {
+            console.error(error)
+            res.send('Vuelve a intentar dentro de 6 minutos')
+        }
+    },
+    async UserPostFollowerName(req,res){
+        try {
+            const user = await User.findById(req.user._id)
+            .populate('postIds')
+            const userName = await user.name
+            const post = await user.postIds
+            const followers = await user.followers.toString()
+            // const followerName1 = ''
+            // followers.forEach(element => {
+            //     followerName1.push(element)
+            // });
+            const followerName = await User.find(followers)
+            console.log(followerName)
+            res.send({userName,post,followerName})
+        } catch (error) {
+            console.error(error)
+            res.send('Vuelve a probar dentro de 7 minutos')
         }
     }
 }
