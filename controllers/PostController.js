@@ -13,8 +13,7 @@ const PostController ={
             res.status(201).send(post)
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.status(404).send('Algo no va bien')
         }
     },
     async update(req,res){
@@ -132,7 +131,7 @@ const PostController ={
             const { page = 1 ,limit = 10 } = req.query;
             const post = await Post.find()
             .populate('likes.userId')
-            .limit(limit *1)
+            .limit(limit * 1)
             .skip((page - 1) * limit);
             res.send(post)
         } catch (error) {
