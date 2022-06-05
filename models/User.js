@@ -33,7 +33,8 @@ const UserSchema = new mongoose.Schema({
     commentId:[{type:Object,ref:'Comment'}],
     favorites:[{type:Object,ref:'Post'}],
     followers:[{type:Object,ref:'User'}],
-    followings:[{type:Object,ref:'User'}]
+    followings:[{type:Object,ref:'User'}],
+    commentsLikes:[{type:Object,ref:'Comment'}]
 },{timestamps:true});
 
 UserSchema.methods.toJSON = function(){
