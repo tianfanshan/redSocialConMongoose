@@ -213,14 +213,11 @@ const UserController = {
             .populate('postIds')
             const userName = await user.name
             const post = await user.postIds
-            const followers = await user.followers.toString()
-            // const followerName1 = ''
-            // followers.forEach(element => {
-            //     followerName1.push(element)
-            // });
-            const followerName = await User.find(followers)
-            console.log(followerName)
-            res.send({userName,post,followerName})
+            const follower = await user.followers
+            const followerName = await User.find({'_id':{$in:follower}})
+            let followerNames = []
+            followerName.forEach(item=>followerName1.push(item.name))
+            res.send({userName,post,followerNames})
         } catch (error) {
             console.error(error)
             res.send('Vuelve a probar dentro de 7 minutos')
