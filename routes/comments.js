@@ -9,6 +9,6 @@ router.put('/id/:_id',authentication,isAuthorComment,CommentController.update);
 router.delete('/id/:_id',authentication,isAuthorComment,CommentController.delete);
 router.put('/likeById/:_id',authentication,CommentController.like);
 router.put('/likeDownById/:_id',authentication,CommentController.likeDown);
-
+router.get('/id/:_id',CommentController.getById);
 
 module.exports = router;

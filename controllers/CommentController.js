@@ -18,6 +18,7 @@ const CommentController = {
             res.status(201).send({message:'Comentario creado',comment})
         } catch (error) {
             console.error(error)
+            res.send('Volvemos en 11 minutos')
         }
     },
     async update(req,res){
@@ -29,7 +30,20 @@ const CommentController = {
             res.send({comment,message:"Comentario actualizado"})
         } catch (error) {
             console.error(error)
-            res.send('Vuelve a intentar dentro de 8 minutos')
+            res.status(404).send('Introduce un id de formato correcto')
+        }
+    },
+    async getById(req,res){
+        try {
+            const comments = await Comment.findById(req.params._id)
+            if(!comments){
+                return res.send('No hemos encontrado el comentario')
+            }
+            const comment = await Comment.findById(req.params._id)
+            res.send(comment)
+        } catch (error) {
+            console.error(error)
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async delete(req,res){
@@ -38,7 +52,7 @@ const CommentController = {
             res.send('Comentario eliminado')
         } catch (error) {
             console.error(error)
-            res.send('Vuelve a intentar dentro de 9 minutos')
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async like(req,res){
@@ -63,7 +77,7 @@ const CommentController = {
             res.send(comment)
         } catch (error) {
             console.error(error)
-            res.send('Volvemos en 10 minutos')
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async likeDown(req,res){
@@ -89,7 +103,7 @@ const CommentController = {
             res.send(user)
         } catch (error) {
             console.error(error)
-            res.send('Volvemos en 9 minutos')
+            res.status(404).send('Introduce un id de formato correcto')
         }
     }
 }

@@ -24,6 +24,10 @@ const PostController ={
     },
     async update(req,res){
         try {
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                res.send('No hemos encontrado el id del post')
+            }
             const post = await Post.findByIdAndUpdate(
                 req.params._id,
                 {...req.body,userId:req.user._id},
@@ -32,18 +36,20 @@ const PostController ={
             res.send({message:"Post actualizado con éxito",post});
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async delete(req,res){
         try {
-            await Post.findById(req.user._id)
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                res.send('No hemos encontrado el id del post')
+            }
+            await Post.findByIdAndDelete(req.params._id)
             res.send({message:"Post eliminado con éxito"})
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async getPostById(req,res){
@@ -57,12 +63,15 @@ const PostController ={
             res.status(200).send(post)
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async likesUp(req,res){
         try {
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                res.send('No hemos encontrado el id del post')
+            }
             const post1 = await Post.findById(req.params._id);
             if(post1.likes.includes(req.user._id)){
                 return res.send('Ya has dado el like')
@@ -81,12 +90,15 @@ const PostController ={
             res.send(post)
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async likesDown(req,res){
         try {
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                res.send('No hemos encontrado el id del post')
+            }
             const post1 = await Post.findById(req.params._id)
             if(!post1.likes.includes(req.user._id)){
                 return res.send('No has dado el like a este post')
@@ -106,6 +118,7 @@ const PostController ={
             res.send(post)
         } catch (error) {
             console.error(error)
+            res.status(404).send('Introduce un id de formato correcto')
         }
     },
     async getPostByBody(req,res){
