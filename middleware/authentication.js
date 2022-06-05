@@ -41,15 +41,15 @@ const isAuthor = async(req,res,next)=>{
         console.error(error)
         return res.status(500).send({error,message:"Ha habido un problema al comprobar la autoría del post"})
     }
-    try {
-        const comment = await Comment.findById(req.params._id);
-        if(comment.userId.toString()!==req.user._id.toString()){
-            return res.status(403).send({message:"Este comentario no es tuyo"})
-        }
-    } catch (error) {
-        console.error(error)
-        res.status(500).send({error,message:"Ha habido un problema al comprobar la autoría del post"})
-    }
+    // try {
+    //     const comment = await Comment.findById(req.params._id);
+    //     if(comment.userId.toString()!==req.user._id.toString()){
+    //         return res.status(403).send({message:"Este comentario no es tuyo"})
+    //     }
+    // } catch (error) {
+    //     console.error(error)
+    //     res.status(500).send({error,message:"Ha habido un problema al comprobar la autoría del post"})
+    // }
 }
 
 module.exports = { authentication , isAdmin, isAuthor };
