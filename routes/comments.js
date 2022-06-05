@@ -6,4 +6,5 @@ const { authentication } = require('../middleware/authentication');
 
 router.post('/',authentication,CommentController.create);
 
+
 module.exports = router;

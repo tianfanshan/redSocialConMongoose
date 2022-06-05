@@ -32,7 +32,7 @@ const UserController = {
     },
     async confirm(req,res){
         try {
-            const user = await User.updateOne({confirmed:true},{
+            await User.updateOne({confirmed:true},{
                 email:req.params.email
             })
             res.status(201).send('Usuario confirmado con éxito');
@@ -111,7 +111,7 @@ const UserController = {
                 return res.status(400).send('Busqueda demasiado larga')
             }
             const name = new RegExp(req.params.name,"i");
-            const user = await User.findOne({name})
+            const user = await User.find({name})
             res.status(200).send({message:"Usuario encontrado",user})
         } catch (error) {
             console.error(error)
