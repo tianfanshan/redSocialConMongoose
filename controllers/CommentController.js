@@ -19,6 +19,27 @@ const CommentController = {
             console.error(error)
         }
     },
+    async update(req,res){
+        try {
+            const comment = await Comment.findByIdAndUpdate(
+                req.params._id,
+                {...req.body,userId:req.user._id},
+                {new:true})
+            res.send({comment,message:"Comentario actualizado"})
+        } catch (error) {
+            console.error(error)
+            res.send('Vuelve a intentar dentro de 8 minutos')
+        }
+    },
+    async delete(req,res){
+        try {
+            await Comment.findByIdAndDelete(req.params._id)
+            res.send('Comentario eliminado')
+        } catch (error) {
+            console.error(error)
+            res.send('Vuelve a intentar dentro de 9 minutos')
+        }
+    },
 }
 
 module.exports = CommentController;
