@@ -4,8 +4,21 @@ const UserController = require('../controllers/UserController');
 const { authentication, isAdmin, isAuthor } = require('../middleware/authentication');
 // const { typeError } = require('../middleware/errors');
 
-router.post('/',UserController.create);
-router.put('/id/:_id',authentication,isAuthor,UserController.update);
+const multer = require('multer')
+
+const fileStorageEngine =  multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, 'images/operator')
+    },
+    filename: (req, file, cb)=>{
+        cb(null, Date.now() + '--' + file.originalname)
+    }
+})
+
+const upload = multer({storage:fileStorageEngine});
+
+router.post('/',upload.single('image'),UserController.create);
+router.put('/id/:_id',upload.single('image'),authentication,UserController.update);
 router.delete('/id/:_id',authentication,isAuthor,isAdmin, UserController.delete);
 router.get('/',authentication,isAdmin,UserController.getAll);
 router.post('/login',UserController.login);
