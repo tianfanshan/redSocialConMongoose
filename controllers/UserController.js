@@ -117,21 +117,6 @@ const UserController = {
             console.error(error)
         }
     },
-    // async getUserLogged(req,res){
-    //     try {
-    //         if(req.params.name.length > 20){
-    //             return res.status(400).send('Busqueda demasiado larga')
-    //         }
-    //         const name = new RegExp(req.params.name,"i");
-    //         console.log(name)
-    //         const user = await User.find({name});
-    //         console.log(user)
-    //         res.statu(200).send({message:"Usuario encontrado",user})
-    //     } catch (error) {
-    //         console.log(error)
-    //         res.send("algo no va bien")
-    //     }
-    // },
     async logout(req,res){
         try {
             const user = await User.findByIdAndUpdate(req.user._id,{
@@ -145,11 +130,6 @@ const UserController = {
     },
     async follower(req,res){
         try {
-            // if(req.body.name.length > 20){
-            //     return res.status(400).send('Busqueda demasiado larga')
-            // }
-            // // const name = new RegExp(req.body.name,"i");
-            // const user = await User.findById(req.params._id)
             const user = await User.findById(req.params._id)
             console.log(user.followers)
             if(user.followers.includes(req.user._id)){
