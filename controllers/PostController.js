@@ -24,6 +24,10 @@ const PostController ={
     },
     async update(req,res){
         try {
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                return res.send('No hemos encontrado el post')
+            }
             const post = await Post.findByIdAndUpdate(
                 req.params._id,
                 {...req.body,userId:req.user._id},
@@ -38,7 +42,11 @@ const PostController ={
     },
     async delete(req,res){
         try {
-            const post = await Post.findById(req.user._id)
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                return res.send('No hemos encontrado el post')
+            }
+            await Post.findById(req.user._id)
             res.send({message:"Post eliminado con éxito"})
         } catch (error) {
             console.error(error)
@@ -48,6 +56,10 @@ const PostController ={
     },
     async getPostById(req,res){
         try {
+            const posts = await Post.findById(req.params._id)
+            if(!posts){
+                return res.send('No hemos encontrado el post')
+            }
             const post = await Post.findById(req.params._id)
             .populate({path:'commentIds',populate:{path:'userId'}})
             res.status(200).send(post)

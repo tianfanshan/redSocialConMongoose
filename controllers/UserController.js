@@ -64,6 +64,10 @@ const UserController = {
     },
     async update(req,res){
         try {
+            const users = await User.findById(req.params._id)
+            if(!users){
+                return res.send('No hemos encontrado el usuario!')
+            }
             const user = await User.findByIdAndUpdate(req.params._id,req.body,{new:true});
             res.status(200).send({message:"Usuario actualizado con éxito",user});
         } catch (error) {
@@ -72,6 +76,10 @@ const UserController = {
     },
     async delete(req,res){
         try {
+            const users = await User.findById(req.params._id)
+            if(!users){
+                return res.send('No hemos encontrado el usuario!')
+            }
             const user = await User.findByIdAndDelete(req.params._id)
             res.status(200).send({message:"El usuario eliminado con éxito",user})
         } catch (error) {
@@ -90,6 +98,10 @@ const UserController = {
     },
     async getCurrentUser(req,res){
         try {
+            const users = await User.findById(req.user._id)
+            if(!users){
+                return res.send('Por favor tienes hacer login primero')
+            }
             const user = await User.find(req.user)
             res.status(200).send({message:"El usuario connectado",user})
         } catch (error) {
@@ -99,6 +111,10 @@ const UserController = {
     },
     async getUserById(req,res){
         try {
+            const users = await User.findById(req.params._id)
+            if(!users){
+                return res.send('No hemos encontrado el usuario!')
+            }
             const user = await User.findById(req.params._id)
             res.status(200).send({message:"Usuario encontrado",user})
         } catch (error) {
@@ -131,7 +147,6 @@ const UserController = {
     async follower(req,res){
         try {
             const user = await User.findById(req.params._id)
-            console.log(user.followers)
             if(user.followers.includes(req.user._id)){
                 return res.send('Ya estas siguiendo al usuario')
             }
@@ -154,7 +169,6 @@ const UserController = {
     async followerOut(req,res){
         try {
             const user = await User.findById(req.params._id)
-            console.log(user)
             if(!user.followers.includes(req.user._id)){
                 return res.send('No tienes seguido a este usuario')
             }
@@ -176,6 +190,10 @@ const UserController = {
     },
     async UserPostFollowerNumber(req,res){
         try {
+            const users = await User.findById(req.user._id)
+            if(!users){
+                return res.send('Por favor tienes hacer login primero')
+            }
             const user = await User.findById(req.user._id)
             .populate('postIds')
             const userName = await user.name
@@ -189,6 +207,10 @@ const UserController = {
     },
     async UserPostFollowerName(req,res){
         try {
+            const users = await User.findById(req.user._id)
+            if(!users){
+                return res.send('Por favor tienes hacer login primero')
+            }
             const user = await User.findById(req.user._id)
             .populate('postIds')
             const userName = await user.name
