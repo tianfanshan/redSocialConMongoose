@@ -26,7 +26,7 @@ const PostController ={
         try {
             const posts = await Post.findById(req.params._id)
             if(!posts){
-                res.send('No hemos encontrado el id del post')
+                return res.send('No hemos encontrado el id del post')
             }
             const post = await Post.findByIdAndUpdate(
                 req.params._id,
@@ -43,7 +43,7 @@ const PostController ={
         try {
             const posts = await Post.findById(req.params._id)
             if(!posts){
-                res.send('No hemos encontrado el id del post')
+                return  res.send('No hemos encontrado el id del post')
             }
             await Post.findByIdAndDelete(req.params._id)
             res.send({message:"Post eliminado con éxito"})
@@ -70,7 +70,7 @@ const PostController ={
         try {
             const posts = await Post.findById(req.params._id)
             if(!posts){
-                res.send('No hemos encontrado el id del post')
+                return res.send('No hemos encontrado el id del post')
             }
             const post1 = await Post.findById(req.params._id);
             if(post1.likes.includes(req.user._id)){
@@ -97,7 +97,7 @@ const PostController ={
         try {
             const posts = await Post.findById(req.params._id)
             if(!posts){
-                res.send('No hemos encontrado el id del post')
+                return res.send('No hemos encontrado el id del post')
             }
             const post1 = await Post.findById(req.params._id)
             if(!post1.likes.includes(req.user._id)){
@@ -131,8 +131,7 @@ const PostController ={
             res.status(200).send({post})
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.send('Lo sentimos')
         }
     },
     async getPostWithUserByBody(req,res){
@@ -145,8 +144,7 @@ const PostController ={
             res.status(200).send({post})
         } catch (error) {
             console.error(error)
-            error.origin = 'Post'
-            next(error)
+            res.send('Lo sentimos')
         }
     },
     async getAll(req,res){
