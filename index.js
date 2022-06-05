@@ -1,7 +1,21 @@
 const express = require('express');
+const app = express();
+
 const { TypeError } = require('./middleware/errors');
 const { dbConnection } = require('./config/config');
-const app = express();
+
+const multer = require('multer')
+
+const fileStorageEngine =  multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, './images')
+    },
+    filename: (req, file, cb)=>{
+        cb(null, Date.now() + '--' + file.originalname)
+    }
+})
+
+const upload = multer({storage});
 require('dotenv').config();
 const PORT = process.env.PORT || 3010;
 
