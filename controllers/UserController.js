@@ -131,6 +131,7 @@ const UserController = {
             res.status(200).send({message:"Usuario encontrado",user})
         } catch (error) {
             console.error(error)
+            res.send('Lo sentimos')
         }
     },
     async logout(req,res){
