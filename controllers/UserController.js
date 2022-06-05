@@ -216,7 +216,7 @@ const UserController = {
             const follower = await user.followers
             const followerName = await User.find({'_id':{$in:follower}})
             let followerNames = []
-            followerName.forEach(item=>followerName1.push(item.name))
+            followerName.forEach(item=>followerNames.push(item.name))
             res.send({userName,post,followerNames})
         } catch (error) {
             console.error(error)
