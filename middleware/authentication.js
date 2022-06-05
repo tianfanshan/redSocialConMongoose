@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config();
 const jwt_secret = process.env.JWT_SECRET;
 const Post = require('../models/Post');
+const Comment = require('../models/Comment')
 
 const authentication = async(req,res,next)=>{
     try {
@@ -32,6 +33,10 @@ const isAdmin = async(req,res,next)=>{
 
 const isAuthor = async(req,res,next)=>{
     try {
+        const posts = await Post.findById(req.params._id)
+            if(!posts){
+                return res.send('No hemos encontrado el post')
+            }
         const post = await Post.findById(req.params._id);
         if(post.userId.toString()!== req.user._id.toString()){
             return res.status(403).send({message:"Este post no es tuyo"})
@@ -41,15 +46,24 @@ const isAuthor = async(req,res,next)=>{
         console.error(error)
         return res.status(500).send({error,message:"Ha habido un problema al comprobar la autoría del post"})
     }
-    // try {
-    //     const comment = await Comment.findById(req.params._id);
-    //     if(comment.userId.toString()!==req.user._id.toString()){
-    //         return res.status(403).send({message:"Este comentario no es tuyo"})
-    //     }
-    // } catch (error) {
-    //     console.error(error)
-    //     res.status(500).send({error,message:"Ha habido un problema al comprobar la autoría del post"})
-    // }
 }
 
-module.exports = { authentication , isAdmin, isAuthor };
+const isAuthorComment = async(req,res,next)=>{
+    try {
+        const coments = await Comment.findById(req.params._id)
+            if(!coments){
+                return res.send('No hemos encontrado el comentario')
+            }
+        const comment = await Comment.findById(req.params._id);
+        console.log(comment)
+        if(comment.userId.toString()!==req.user._id.toString()){
+            return res.status(403).send({message:"Este comentario no es tuyo"})
+        }
+        next()
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({error,message:"Ha habido un problema al comprobar la autoría del post"})
+    }
+}
+
+module.exports = { authentication , isAdmin, isAuthor ,isAuthorComment};

@@ -21,10 +21,6 @@ const CommentController = {
     },
     async update(req,res){
         try {
-            const coments = await Comment.findById(req.params._id)
-            if(!coments){
-                return res.send('No hemos encontrado el comentario')
-            }
             const comment = await Comment.findByIdAndUpdate(
                 req.params._id,
                 {...req.body,userId:req.user._id},
@@ -37,10 +33,6 @@ const CommentController = {
     },
     async delete(req,res){
         try {
-            const coments = await Comment.findById(req.params._id)
-            if(!coments){
-                return res.send('No hemos encontrado el comentario')
-            }
             await Comment.findByIdAndDelete(req.params._id)
             res.send('Comentario eliminado')
         } catch (error) {
