@@ -147,7 +147,7 @@ const UserController = {
       posts.forEach(async (post) => {
         await Comment.deleteMany({ postId: post._id });
       });
-      res.status(200).send({ message: "Usuario encontrado", user });
+      res.status(200).send({ message: "Eliminado", user });
     } catch (error) {
       console.error(error);
       res.send(error);
