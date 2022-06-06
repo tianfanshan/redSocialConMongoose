@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router()
 const UserController = require('../controllers/UserController');
 const { authentication, isAdmin, isAuthor } = require('../middleware/authentication');
-// const { typeError } = require('../middleware/errors');
 
 const multer = require('multer')
 
