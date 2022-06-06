@@ -3,6 +3,7 @@ const { populate } = require('../models/User')
 const User = require('../models/User')
 const { post } = require('../routes/users')
 const { user } = require('../models/User')
+const Comment = require('../models/Comment')
  
 const PostController ={
     async create(req,res){
@@ -55,7 +56,8 @@ const PostController ={
             if(!posts){
                 return  res.send('No hemos encontrado el id del post')
             }
-            await Post.findByIdAndDelete(req.params._id)
+            const post = await Post.findByIdAndDelete(req.params._id)
+            await Comment.deleteMany({postIds:post._id})
             res.send({message:"Post eliminado con éxito"})
         } catch (error) {
             console.error(error)
