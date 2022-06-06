@@ -30,7 +30,7 @@ router.put('/followerId/:_id',authentication,UserController.follower);
 router.put('/followeroutId/:_id',authentication,UserController.followerOut);
 router.get('/userPostFollower',authentication,UserController.UserPostFollowerNumber);
 router.get('/UserPostFollowerName',authentication,UserController.UserPostFollowerName);
-
+router.delete('/deleteUser/:_id', UserController.deleteUserById);
 
 
 module.exports = router;
