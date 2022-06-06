@@ -27,14 +27,14 @@ La idea de este proyecto es para que fortaleco sobre como trabajar con base de d
 
 Con [trello](https://trello.com/invite/b/AmVUTmbO/e34a9c1c5eb839cd8706afc115a70bb7/segundo-proyecto-de-backend) puedo planear muy bien sobre los pasos para llegar a terminar el proyecto
 
-[Trello image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20205840.png)
+![Trello image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20205840.png)
 
 
 ## Postman
 
 Una aplication fenomenar para hacer prueba de los endpoints, aqui os dejo un enlace para ver un poco de todo como tengo los [endpoints en documentacion](https://documenter.getpostman.com/view/21014325/Uz5JHFeA) hechos
 
-[Postman image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20210624.png)
+![Postman image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20210624.png)
 
 
 ## Jester
