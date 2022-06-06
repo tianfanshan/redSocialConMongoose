@@ -7,6 +7,10 @@ const { user } = require('../models/User')
 const PostController ={
     async create(req,res){
         try {
+            if(req.files){
+            const images = req.files.map((elem)=> elem.filename)
+            req.body.images = images
+            }
             const post = await Post.create({
                 ...req.body,
                 daliveryDate:new Date(),
@@ -24,6 +28,12 @@ const PostController ={
     },
     async update(req,res){
         try {
+            if(req.files){
+                console.log(req.files)
+                const images = req.files.map((elem)=> elem.filename)
+                console.log(images)
+                req.body.images = images
+                }
             const posts = await Post.findById(req.params._id)
             if(!posts){
                 return res.send('No hemos encontrado el id del post')

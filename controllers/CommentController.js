@@ -5,6 +5,10 @@ const User = require('../models/User')
 const CommentController = {
     async create(req,res){
         try {
+            if(req.files){
+                const images = req.files.map((elem)=> elem.filename)
+                req.body.images = images
+                }
             const comment = await Comment.create({
                 ...req.body,
                 userId:req.user._id,
@@ -23,6 +27,10 @@ const CommentController = {
     },
     async update(req,res){
         try {
+            if(req.files){
+                const images = req.files.map((elem)=> elem.filename)
+                req.body.images = images
+                }
             const comment = await Comment.findByIdAndUpdate(
                 req.params._id,
                 {...req.body,userId:req.user._id},

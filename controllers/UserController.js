@@ -9,6 +9,7 @@ const jwt_secret = process.env.JWT_SECRET;
 const UserController = {
     async create(req,res,next){
         try {
+            if(req.file){req.body.image = req.file.filename}
             const password = bcrypt.hashSync(req.body.password,10)
             const user = await User.create({
                 ...req.body,
@@ -65,6 +66,7 @@ const UserController = {
     },
     async update(req,res){
         try {
+            if(req.file){req.body.image = req.file.filename}
             const users = await User.findById(req.params._id)
             if(!users){
                 return res.send('No hemos encontrado el usuario!')
@@ -73,6 +75,7 @@ const UserController = {
             res.status(200).send({message:"Usuario actualizado con éxito",user});
         } catch (error) {
             console.error(error)
+            res.send(error)
         }
     },
     async delete(req,res){

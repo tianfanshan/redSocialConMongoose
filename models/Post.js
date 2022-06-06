@@ -10,6 +10,10 @@ const PostSchema = new mongoose.Schema({
         type:String,
         required:[true,'Tu nombre para hacer el post']
     },
+    images:[{
+        type:String,
+        default:''
+    }],
     userId:{type:ObjectId,ref:'User'},
     likes:[{type:ObjectId,ref:'User'}],
     commentIds:[{type:ObjectId,ref:'Comment'}]

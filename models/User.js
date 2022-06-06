@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:"user"
     },
+    image:{
+        type:String,
+        default:''
+    },
     tokens:[],
     postIds:[{type:Object,ref:'Post'}],
     commentId:[{type:Object,ref:'Comment'}],
