@@ -1,12 +1,12 @@
 # <center>Red Social 2.0</center>
 
 ## Descripción
-Este proyecto esta hecho a pavor de The Bridge
+Este proyecto esta hecho a favor de The Bridge
 
 ## Tecnologías usadas
-* Nodejs
-* MongoDB
-* Heroku
+* [Nodejs](https://nodejs.org/en/)
+* [MongoDB](https://www.mongodb.com/)
+* [Heroku](https://id.heroku.com/)
 
 ## Los package de NPM instalados
 * [bcrypt](https://www.npmjs.com/package/bcrypt)
