@@ -136,30 +136,43 @@ const UserController = {
   },
   async deleteUserById(req, res) {
     try {
+      
       const users = await User.findById(req.params._id);
       if (!users) {
         return res.send("No hemos encontrado el usuario!");
       }
-      await User.findByIdAndUpdate(
-        {followers:req.params._id},
-        {$pull:{followers:req.params._id}}
-        )
-      await User.findByIdAndUpdate(
-        {followings:req.params._id},
-        {$pull:{followings:req.params._id}}
-        )
       const user = await User.findByIdAndDelete(req.params._id);
       const posts = await Post.find({ userId: req.params._id });
       await Post.deleteMany({ userId: req.params._id });
-      await Comment.deleteMany({userId:req.params._id})
+      await Comment.deleteMany({ userId: req.params._id });
       posts.forEach(async (post) => {
         await Comment.deleteMany({ postId: post._id });
-        await User.findByIdAndUpdate(
-          {favorites:post._id},
-          {$pull:{favorites:req.params._id}}
-        )
+        const userss = await User.find({ favorites: post._id });
+        userss.forEach(async (user) => {
+          await User.findByIdAndUpdate(user._id, {
+            $pull: { favorites: req.params._id },
+          });
+        });
       });
-      res.status(200).send({ message: "Eliminado", user });
+      const followers = await User.find();
+      followers.forEach(async (follower) => {
+      await User.findOneAndUpdate(
+          { email: follower.email },
+          {
+                $pull: { followers: req.params._id },
+              }
+        );
+      });
+      const followings = await User.find({ followings: req.params._id });
+
+      followings.forEach(async (follow) => {
+
+        await User.findByIdAndUpdate(follow._id, {
+          $pull: { followings: req.params._id },
+        });
+      });
+
+      res.status(200).send({ message: "Eliminado" ,user});
     } catch (error) {
       console.error(error);
       res.send(error);
@@ -211,7 +224,7 @@ const UserController = {
       }
       const follower = await User.findByIdAndUpdate(
         req.params._id,
-        { $push: { followers: req.user._id } },
+        { $push: { followers: req.user._id.toString() } },
         { new: true }
       );
       await User.findByIdAndUpdate(

@@ -2,7 +2,6 @@ const Post = require('../models/Post')
 const { populate } = require('../models/User')
 const User = require('../models/User')
 const { post } = require('../routes/users')
-const { user } = require('../models/User')
 const Comment = require('../models/Comment')
  
 const PostController ={
@@ -58,6 +57,11 @@ const PostController ={
             }
             const post = await Post.findByIdAndDelete(req.params._id)
             await Comment.deleteMany({postIds:post._id})
+            const user = await User.find({favorites:req.params._id})
+            await User.findByIdAndUpdate(
+                user._id,
+                {$pull:{favorites:req.params._id}}
+            )
             res.send({message:"Post eliminado con éxito"})
         } catch (error) {
             console.error(error)

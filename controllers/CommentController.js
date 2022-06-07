@@ -58,6 +58,13 @@ const CommentController = {
         try {
             await Comment.findByIdAndDelete(req.params._id)
             res.send('Comentario eliminado')
+            const userlikes = await User.find(
+                {commentsLikes:req.params._id}
+            )
+            await User.findByIdAndUpdate(
+                userlikes._id,
+                {$pull:{commentsLikes:req.params._id}}
+            )
         } catch (error) {
             console.error(error)
             res.status(404).send('Introduce un id de formato correcto')
