@@ -55,6 +55,8 @@ Tambien gracias a [Vanesa](https://github.com/vaneebg), por el problema de que c
 
 Y a todos lo compañeros de la [clase](https://github.com/tianfanshan?tab=followers), si alquien no esta en el follower, tienes que hacer un push a mi array de follower.
 
+# Lo mas importante... si alguien puede hacer un seed para mongoose le voy a dar mil gracias TAT
+
 
 ## Autor
 
