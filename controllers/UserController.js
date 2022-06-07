@@ -34,8 +34,8 @@ const UserController = {
       });
     } catch (error) {
       console.log(error);
-      // error.origin = "User";
-      // next(error);
+      error.origin = "User";
+      next(error);
     }
   },
   async confirm(req, res) {
@@ -218,9 +218,8 @@ const UserController = {
   },
   async logout(req, res) {
     try {
-      const user = await User.findByIdAndUpdate(req.user._id, {
-        $pull: { tokens: req.headers.authorization },
-      });
+      const user = await User.findByIdAndUpdate(req.user._id, 
+        {$pull: { tokens: req.headers.authorization },});
       res.status(200).send({ user, message: "Usuario deconectado!" });
     } catch (error) {
       console.error(error);
@@ -254,12 +253,13 @@ const UserController = {
   async followerOut(req, res) {
     try {
       const user = await User.findById(req.params._id);
-      if (!user.followers.includes(req.user._id)) {
+      console.log(user)
+      if (!user.followers.includes(req.user._id.toString())) {
         return res.send("No tienes seguido a este usuario");
       }
       const follower = await User.findByIdAndUpdate(
         req.params._id,
-        { $pull: { followers: req.user._id } },
+        { $pull: { followers: req.user._id.toString()} },
         { new: true }
       );
       await User.findByIdAndUpdate(

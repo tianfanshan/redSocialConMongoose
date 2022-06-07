@@ -156,7 +156,9 @@ const PostController ={
                 return res.status(400).send('Busqueda demasiado larga')
             }
             const body = new RegExp(req.params.body,"i");
-            const post = await Post.find({body}).limit(10);
+            const post = await Post.find({body})
+            .populate('userId')
+            .limit(10);
             res.status(200).send({post})
         } catch (error) {
             console.error(error)

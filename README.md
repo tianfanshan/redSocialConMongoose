@@ -37,9 +37,6 @@ Una aplication fenomenar para hacer prueba de los endpoints, aqui os dejo un enl
 ![Postman image](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-06%20210624.png)
 
 
-## Jester
-
-Un paquete instalado por NPM fenomenar para hacer test de los codigos, nunca falla!
 
 ## Agradecimientos
 
