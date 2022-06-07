@@ -1,7 +1,5 @@
 const Post = require('../models/Post')
-const { populate } = require('../models/User')
 const User = require('../models/User')
-const { post } = require('../routes/users')
 const Comment = require('../models/Comment')
  
 const PostController ={
@@ -58,10 +56,12 @@ const PostController ={
             const post = await Post.findByIdAndDelete(req.params._id)
             await Comment.deleteMany({postIds:post._id})
             const user = await User.find({favorites:req.params._id})
-            await User.findByIdAndUpdate(
-                user._id,
-                {$pull:{favorites:req.params._id}}
-            )
+            user.forEach(async userss =>{
+                await User.findByIdAndUpdate(
+                    userss._id,
+                    {$pull:{favorites:req.params._id}}
+                )
+            })
             res.send({message:"Post eliminado con éxito"})
         } catch (error) {
             console.error(error)
@@ -94,7 +94,7 @@ const PostController ={
             }
             const post =await Post.findByIdAndUpdate(
                 req.params._id,
-                {$push:{likes:req.user._id}},
+                {$push:{likes:req.user._id.toString()}},
                 {new:true})    
             console.log(post.likes)
             const user = await User.findByIdAndUpdate(
@@ -116,12 +116,12 @@ const PostController ={
                 return res.send('No hemos encontrado el id del post')
             }
             const post1 = await Post.findById(req.params._id)
-            if(!post1.likes.includes(req.user._id)){
+            if(!post1.likes.includes(req.user._id.toString())){
                 return res.send('No has dado el like a este post')
             }
             const post = await Post.findByIdAndUpdate(
                 req.params._id,
-                {$pull:{likes:req.user._id}},
+                {$pull:{likes:req.user._id.toString()}},
                 {$new:true}
                 )
                 console.log(post.likes)
@@ -169,7 +169,8 @@ const PostController ={
         try {
             const { page = 1 ,limit = 10 } = req.query;
             const post = await Post.find()
-            .populate('likes.userId')
+            .populate('likes','userId')
+            .populate('commentIds')
             .limit(limit * 1)
             .skip((page - 1) * limit);
             res.send(post)

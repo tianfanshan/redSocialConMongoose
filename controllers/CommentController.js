@@ -66,10 +66,13 @@ const CommentController = {
             const userlikes = await User.find(
                 {commentsLikes:req.params._id}
             )
-            await User.findByIdAndUpdate(
-                userlikes._id,
-                {$pull:{commentsLikes:req.params._id}}
-            )
+            userlikes.forEach(async like=>{
+                await User.findByIdAndUpdate(
+                    like._id,
+                    {$pull:{commentsLikes:req.params._id}}
+                )
+            })
+            
         } catch (error) {
             console.error(error)
             res.status(404).send('Introduce un id de formato correcto')
@@ -81,12 +84,12 @@ const CommentController = {
             if(!comments){
                 return res.send('No hemos encontrado el comentario')
             }
-            if(comments.likes.includes(req.user._id)){
+            if(comments.likes.includes(req.user._id.toString())){
                 return res.send('Ya le has dado el like a este comentario')
             }
             const comment = await Comment.findByIdAndUpdate(
                 req.params._id,
-                {$push:{likes:req.user._id}},
+                {$push:{likes:req.user._id.toString()}},
                 {new:true}
             )
             await User.findByIdAndUpdate(
@@ -112,7 +115,7 @@ const CommentController = {
             }
             await Comment.findByIdAndUpdate(
                 req.params._id,
-                {$pull:{likes:req.user._id}},
+                {$pull:{likes:req.user._id.toString()}},
                 {new:true}
             )
             const user = await User.findByIdAndUpdate(
