@@ -20,7 +20,11 @@ La idea de este proyecto es para que fortaleco sobre como trabajar con base de d
 * [mongoose](https://www.npmjs.com/package/mongoose)
 * [multer](https://www.npmjs.com/package/multer)
 * [nodemailer](https://www.npmjs.com/package/nodemailer)
-* [Jester](https://www.npmjs.com/package/jester)
+
+## El tintero
+
+* [Jester](https://www.npmjs.com/package/jester) instalado pero no me da tiempo para probar
+* [Swagger](https://swagger.io/) ya es para el siguiente proyecto
 
 
 ## Trello
