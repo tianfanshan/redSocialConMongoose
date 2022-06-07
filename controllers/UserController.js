@@ -34,8 +34,8 @@ const UserController = {
       });
     } catch (error) {
       console.log(error);
-      error.origin = "User";
-      next(error);
+      // error.origin = "User";
+      // next(error);
     }
   },
   async confirm(req, res) {
@@ -54,12 +54,14 @@ const UserController = {
   async login(req, res) {
     try {
       const user = await User.findOne({ email: req.body.email });
+      console.log(user)
       if (!user) {
         return res
           .status(400)
           .send({ message: "Usuario o contraseña incorrectos" });
       }
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
+      console.log(isMatch)
       if (!isMatch) {
         return res
           .status(400)
@@ -79,16 +81,18 @@ const UserController = {
   },
   async update(req, res) {
     try {
-      if (req.file) {
-        req.body.image = req.file.filename;
-      }
+      const {name,image,password,age} = req.body
+      const hashpassword = bcrypt.hashSync(req.body.password, 10);
       const users = await User.findById(req.params._id);
       if (!users) {
         return res.send("No hemos encontrado el usuario!");
       }
-      const user = await User.findByIdAndUpdate(req.params._id, req.body, {
-        new: true,
-      });
+      const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {name,image,role:'user',age,password:hashpassword},
+        {new: true}
+      );
+      console.log(user)
       res.status(200).send({ message: "Usuario actualizado con éxito", user });
     } catch (error) {
       console.error(error);
@@ -145,30 +149,39 @@ const UserController = {
       const posts = await Post.find({ userId: req.params._id });
       await Post.deleteMany({ userId: req.params._id });
       await Comment.deleteMany({ userId: req.params._id });
+
       posts.forEach(async (post) => {
         await Comment.deleteMany({ postId: post._id });
         const userss = await User.find({ favorites: post._id });
         userss.forEach(async (user) => {
-          await User.findByIdAndUpdate(user._id, {
-            $pull: { favorites: req.params._id },
-          });
+          await User.findByIdAndUpdate(
+              user._id, 
+              {$pull: { favorites: req.params._id }}
+            );
         });
       });
-      const followers = await User.find();
-      followers.forEach(async (follower) => {
-      await User.findOneAndUpdate(
-          { email: follower.email },
-          {
-                $pull: { followers: req.params._id },
-              }
+
+      const commentslike = await User.find({commentsLikes:req.params._id})
+      commentslike.forEach(async clikes=>{
+      await User.findByIdAndUpdate(
+          clikes._id,
+          {$pull:{commentsLikes:req.params._id}}
         );
       });
+
+      const followers = await User.find({follower:req.params._id});
+      followers.forEach(async (follower) => {
+      await User.findByIdAndUpdate(
+          follower._id,
+          {$pull: { followers: req.params._id }}
+        );
+      });
+
       const followings = await User.find({ followings: req.params._id });
-
       followings.forEach(async (follow) => {
-
-        await User.findByIdAndUpdate(follow._id, {
-          $pull: { followings: req.params._id },
+        await User.findByIdAndUpdate(
+          follow._id, 
+          {$pull: { followings: req.params._id },
         });
       });
 
