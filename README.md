@@ -38,9 +38,23 @@ Una aplication fenomenar para hacer prueba de los endpoints, aqui os dejo un enl
 
 
 
-## Agradecimientos
+## Agradecimientos y desafios
 
-En este proyecto queria agradecer a mis profes [Sofia](https://github.com/SofiaPinilla),[Ger](https://github.com/GeerDev) e [Ivan](https://github.com/ivanpuebla10), sin sus enseñanza eficaz y paciente no puedo aprender mucho en este proyecto, tambien a los [compañeros](https://github.com/tianfanshan?tab=following) de clase, hemos hablado mucho sobre como superar las dificultades que hemos encontrado!!!
+En este proyecto queria agradecer a mis profes [Sofia](https://github.com/SofiaPinilla),[Ger](https://github.com/GeerDev) e [Ivan](https://github.com/ivanpuebla10), me han enseñando bastante y tambien he aprendido mucho sobre todo este trozo de codigo:
+
+![Follower code](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-07%20181035.png)
+![Follower code2.0](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-07%20181114.png)
+
+Gracias a [David](https://github.com/Dubesor22) e [Ivan](https://github.com/ivanpuebla10), por la ayuda sobre como añadir imagen con multer al usuario,post y comentarios:
+
+![multer](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-07%20204726.png)
+
+Tambien gracias a [Vanesa](https://github.com/vaneebg), por el problema de que cuando hacemos el update del usuario no puede volver a hacer login:
+
+![update user](./assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-06-07%20181142.png)
+
+Y a todos lo compañeros de la [clase](https://github.com/tianfanshan?tab=followers), si alquien no esta en el follower, tienes que hacer un push a mi array de follower.
+
 
 ## Autor
 
