@@ -140,12 +140,24 @@ const UserController = {
       if (!users) {
         return res.send("No hemos encontrado el usuario!");
       }
+      await User.findByIdAndUpdate(
+        {followers:req.params._id},
+        {$pull:{followers:req.params._id}}
+        )
+      await User.findByIdAndUpdate(
+        {followings:req.params._id},
+        {$pull:{followings:req.params._id}}
+        )
       const user = await User.findByIdAndDelete(req.params._id);
       const posts = await Post.find({ userId: req.params._id });
       await Post.deleteMany({ userId: req.params._id });
       await Comment.deleteMany({userId:req.params._id})
       posts.forEach(async (post) => {
         await Comment.deleteMany({ postId: post._id });
+        await User.findByIdAndUpdate(
+          {favorites:post._id},
+          {$pull:{favorites:req.params._id}}
+        )
       });
       res.status(200).send({ message: "Eliminado", user });
     } catch (error) {
