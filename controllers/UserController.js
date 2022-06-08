@@ -99,21 +99,6 @@ const UserController = {
       res.send(error);
     }
   },
-  async delete(req, res) {
-    try {
-      const users = await User.findById(req.params._id);
-      if (!users) {
-        return res.send("No hemos encontrado el usuario!");
-      }
-      const user = await User.findByIdAndDelete(req.params._id);
-      res.status(200).send({ message: "El usuario eliminado con éxito", user });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al eliminar el usuario" });
-    }
-  },
   async getAll(req, res) {
     try {
       const user = await User.find();
