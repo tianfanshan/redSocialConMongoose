@@ -115,7 +115,7 @@ const CommentController = {
             }
             await Comment.findByIdAndUpdate(
                 req.params._id,
-                {$pull:{likes:req.user._id.toString()}},
+                {$pull:{likes:req.user._id}},
                 {new:true}
             )
             const user = await User.findByIdAndUpdate(
