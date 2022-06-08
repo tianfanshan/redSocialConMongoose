@@ -20,3 +20,5 @@ app.use('/comments',require('./routes/comments'));
 app.use(TypeError)
 
 app.listen(PORT,console.log(`Servidor levantado por ${PORT}`));
+
+module.exports = app;
