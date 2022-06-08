@@ -116,12 +116,12 @@ const PostController ={
                 return res.send('No hemos encontrado el id del post')
             }
             const post1 = await Post.findById(req.params._id)
-            if(!post1.likes.includes(req.user._id.toString())){
+            if(!post1.likes.includes(req.user._id)){
                 return res.send('No has dado el like a este post')
             }
             const post = await Post.findByIdAndUpdate(
                 req.params._id,
-                {$pull:{likes:req.user._id.toString()}},
+                {$pull:{likes:req.user._id}},
                 {$new:true}
                 )
                 console.log(post.likes)
