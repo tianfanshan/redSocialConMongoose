@@ -264,7 +264,8 @@ const UserController = {
       if (!users) {
         return res.send("Por favor tienes hacer login primero");
       }
-      const user = await User.findById(req.user._id).populate("postIds");
+      const user = await User.findById(req.user._id)
+      .populate("postIds");
       const userName = await user.name;
       const post = await user.postIds;
       const followers = await user.followers.length;
