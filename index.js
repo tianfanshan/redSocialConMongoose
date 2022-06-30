@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 
 const { TypeError } = require('./middleware/errors');
 const { dbConnection } = require('./config/config');
@@ -8,6 +9,7 @@ const { dbConnection } = require('./config/config');
 require('dotenv').config();
 const PORT = process.env.PORT || 3010;
 
+app.use(cors())
 
 app.use(express.json())
 

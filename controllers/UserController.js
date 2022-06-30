@@ -54,14 +54,14 @@ const UserController = {
   async login(req, res) {
     try {
       const user = await User.findOne({ email: req.body.email });
-      console.log(user)
+      console.log(user);
       if (!user) {
         return res
           .status(400)
           .send({ message: "Usuario o contraseña incorrectos" });
       }
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
-      console.log(isMatch)
+      console.log(isMatch);
       if (!isMatch) {
         return res
           .status(400)
@@ -81,7 +81,7 @@ const UserController = {
   },
   async update(req, res) {
     try {
-      const {name,image,password,age} = req.body
+      const { name, image, password, age } = req.body;
       const hashpassword = bcrypt.hashSync(req.body.password, 10);
       const users = await User.findById(req.params._id);
       if (!users) {
@@ -89,10 +89,10 @@ const UserController = {
       }
       const user = await User.findByIdAndUpdate(
         req.user._id,
-        {name,image,role:'user',age,password:hashpassword},
-        {new: true}
+        { name, image, role: "user", age, password: hashpassword },
+        { new: true }
       );
-      console.log(user)
+      console.log(user);
       res.status(200).send({ message: "Usuario actualizado con éxito", user });
     } catch (error) {
       console.error(error);
@@ -125,7 +125,6 @@ const UserController = {
   },
   async deleteUserById(req, res) {
     try {
-      
       const users = await User.findById(req.params._id);
       if (!users) {
         return res.send("No hemos encontrado el usuario!");
@@ -139,38 +138,34 @@ const UserController = {
         await Comment.deleteMany({ postId: post._id });
         const userss = await User.find({ favorites: post._id });
         userss.forEach(async (user) => {
-          await User.findByIdAndUpdate(
-              user._id, 
-              {$pull: { favorites: req.params._id }}
-            );
+          await User.findByIdAndUpdate(user._id, {
+            $pull: { favorites: req.params._id },
+          });
         });
       });
 
-      const commentslike = await User.find({commentsLikes:req.params._id})
-      commentslike.forEach(async clikes=>{
-      await User.findByIdAndUpdate(
-          clikes._id,
-          {$pull:{commentsLikes:req.params._id}}
-        );
+      const commentslike = await User.find({ commentsLikes: req.params._id });
+      commentslike.forEach(async (clikes) => {
+        await User.findByIdAndUpdate(clikes._id, {
+          $pull: { commentsLikes: req.params._id },
+        });
       });
 
-      const followers = await User.find({follower:req.params._id});
+      const followers = await User.find({ follower: req.params._id });
       followers.forEach(async (follower) => {
-      await User.findByIdAndUpdate(
-          follower._id,
-          {$pull: { followers: req.params._id }}
-        );
+        await User.findByIdAndUpdate(follower._id, {
+          $pull: { followers: req.params._id },
+        });
       });
 
       const followings = await User.find({ followings: req.params._id });
       followings.forEach(async (follow) => {
-        await User.findByIdAndUpdate(
-          follow._id, 
-          {$pull: { followings: req.params._id },
+        await User.findByIdAndUpdate(follow._id, {
+          $pull: { followings: req.params._id },
         });
       });
 
-      res.status(200).send({ message: "Eliminado" ,user});
+      res.status(200).send({ message: "Eliminado", user });
     } catch (error) {
       console.error(error);
       res.send(error);
@@ -203,8 +198,9 @@ const UserController = {
   },
   async logout(req, res) {
     try {
-      const user = await User.findByIdAndUpdate(req.user._id, 
-        {$pull: { tokens: req.headers.authorization },});
+      const user = await User.findByIdAndUpdate(req.user._id, {
+        $pull: { tokens: req.headers.authorization },
+      });
       res.status(200).send({ user, message: "Usuario deconectado!" });
     } catch (error) {
       console.error(error);
@@ -238,13 +234,13 @@ const UserController = {
   async followerOut(req, res) {
     try {
       const user = await User.findById(req.params._id);
-      console.log(user)
+      console.log(user);
       if (!user.followers.includes(req.user._id.toString())) {
         return res.send("No tienes seguido a este usuario");
       }
       const follower = await User.findByIdAndUpdate(
         req.params._id,
-        { $pull: { followers: req.user._id.toString()} },
+        { $pull: { followers: req.user._id.toString() } },
         { new: true }
       );
       await User.findByIdAndUpdate(
@@ -264,8 +260,7 @@ const UserController = {
       if (!users) {
         return res.send("Por favor tienes hacer login primero");
       }
-      const user = await User.findById(req.user._id)
-      .populate("postIds");
+      const user = await User.findById(req.user._id).populate("postIds");
       const userName = await user.name;
       const post = await user.postIds;
       const followers = await user.followers.length;
