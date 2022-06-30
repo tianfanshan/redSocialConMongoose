@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 
 const { TypeError } = require('./middleware/errors');
 const { dbConnection } = require('./config/config');
@@ -8,8 +9,12 @@ const { dbConnection } = require('./config/config');
 require('dotenv').config();
 const PORT = process.env.PORT || 3010;
 
+<<<<<<< HEAD
 const swaggerUI = require('swagger-ui-express');
 const docs = require('./docs/index')
+=======
+app.use(cors())
+>>>>>>> main
 
 app.use(express.json())
 
