@@ -14,15 +14,17 @@ const handleValidationError = (err, res) => {
 
 const TypeError = (err, req, res, next) => {
   const errOrigin = err.origin;
-  if(err.name === 'ValidationError'){
-    return err = handleValidationError(err, res);
-  }else if (err.code === 11000) {
-    res.status(400).send(`El campo ${Object.keys(err.keyPattern)} tiene que ser único`)
-  }else if (errOrigin === undefined) {
-    res.status(500).send('Se ha producido un error de origen desconocido');
+  if (err.name === "ValidationError") {
+    return (err = handleValidationError(err, res));
+  } else if (err.code === 11000) {
+    res
+      .status(400)
+      .send(`El campo ${Object.keys(err.keyPattern)} tiene que ser único`);
+  } else if (errOrigin === undefined) {
+    res.status(500).send("Se ha producido un error de origen desconocido");
   } else {
     res.status(500).send(`Hubo un problema a la hora de crear un ${errOrigin}`);
-  }   
+  }
 };
 
-module.exports = {TypeError} ;
+module.exports = { TypeError };
