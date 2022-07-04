@@ -17,10 +17,10 @@ const PostController = {
       await User.findByIdAndUpdate(req.user._id, {
         $push: { postIds: post._id },
       });
-      res.status(201).send(post);
+      res.status(201).send({message:'post creado con éxito',post});
     } catch (error) {
       console.error(error);
-      res.status(404).send("Algo no va bien");
+      res.status(404).send({message:"Algo no va bien"});
     }
   },
   async update(req, res) {
@@ -166,7 +166,7 @@ const PostController = {
   },
   async getAll(req, res) {
     try {
-      const { page = 1, limit = 10 } = req.query;
+      const { page = 1, limit = 100 } = req.query;
       const post = await Post.find()
         .populate("likes", "userId")
         .populate("commentIds")

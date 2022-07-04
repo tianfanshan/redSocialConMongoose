@@ -74,7 +74,7 @@ const UserController = {
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
       await user.save();
-      return res.send({ message: "Bienvenido@" + user.name, token });
+      return res.send({ message: "Bienvenido@" + user.name, token, user });
     } catch (error) {
       res.status(500).send({ message: "Ha habido un problema" });
     }
