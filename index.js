@@ -5,14 +5,19 @@ const cors = require("cors");
 const { TypeError } = require("./middleware/errors");
 const { dbConnection } = require("./config/config");
 
+
+
 require("dotenv").config();
 const PORT = process.env.PORT || 3010;
 
+
+
 const swaggerUI = require("swagger-ui-express");
 const docs = require("./docs/index");
-app.use(cors());
 
+app.use(cors());
 app.use(express.json());
+app.use(express.static('Images'));
 
 dbConnection();
 
