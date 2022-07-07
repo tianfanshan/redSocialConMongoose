@@ -125,14 +125,12 @@ const PostController = {
         { $pull: { likes: req.user._id } },
         { $new: true }
       );
-      console.log(post.likes);
       const user = await User.findByIdAndUpdate(
         req.user._id,
         { $pull: { favorites: req.params._id } },
         { $new: true }
       );
-      console.log(user.favorites);
-      res.send(post);
+      res.send({user,post});
     } catch (error) {
       console.error(error);
       res.status(404).send("Introduce un id de formato correcto");
