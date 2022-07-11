@@ -4,6 +4,7 @@ const CommentController = require("../controllers/CommentController");
 const {
   authentication,
   isAuthorComment,
+  isAuthor,
 } = require("../middleware/authentication");
 
 const multer = require("multer");
@@ -41,5 +42,10 @@ router.delete(
 router.put("/likeById/:_id", authentication, CommentController.like);
 router.put("/likeDownById/:_id", authentication, CommentController.likeDown);
 router.get("/id/:_id", CommentController.getById);
+router.get("/getAllComments", CommentController.getAll);
+router.get(
+  "/getCommentById/:_id",
+  CommentController.getCommentById
+);
 
 module.exports = router;

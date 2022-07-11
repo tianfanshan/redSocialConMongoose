@@ -53,15 +53,14 @@ const UserController = {
   },
   async login(req, res) {
     try {
-      const user = await User.findOne({ email: req.body.email });
-      console.log(user);
+      const user = await User.findOne({ email: req.body.email })
+      .populate("commentId")
       if (!user) {
         return res
           .status(400)
           .send({ message: "Usuario o contraseña incorrectos" });
       }
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
-      console.log(isMatch);
       if (!isMatch) {
         return res
           .status(400)
@@ -73,7 +72,8 @@ const UserController = {
       token = jwt.sign({ _id: user._id }, jwt_secret);
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
-      await user.save();
+      await user.save()
+      
       return res.send({ message: "Bienvenido@" + user.name, token, user });
     } catch (error) {
       res.status(500).send({ message: "Ha habido un problema" });
@@ -112,11 +112,16 @@ const UserController = {
   },
   async getCurrentUser(req, res) {
     try {
-      const users = await User.findById(req.user._id);
+      const users = await User.findById(req.user._id)
+      .populate("commentId")
       if (!users) {
         return res.send("Por favor tienes hacer login primero");
       }
-      const user = await User.find(req.user);
+      const user = await User.findOne(req.user)
+      .populate("followers")
+      .populate("followings")
+      .populate("favorites")
+      .populate("postIds")
       res.status(200).send({ message: "El usuario connectado", user });
     } catch (error) {
       console.error(error);
@@ -173,7 +178,8 @@ const UserController = {
   },
   async getUserById(req, res) {
     try {
-      const user = await User.findById(req.params._id);
+      const user = await User.findById(req.params._id)
+      .populate("commentId")
       if (!user) {
         return res.send("No hemos encontrado el usuario!");
       }
@@ -189,7 +195,8 @@ const UserController = {
         return res.status(400).send("Busqueda demasiado larga");
       }
       const name = new RegExp(req.params.name, "i");
-      const user = await User.find({ name });
+      const user = await User.find({ name })
+      .populate("commentId")
       res.status(200).send({ message: "Usuario encontrado", user });
     } catch (error) {
       console.error(error);
@@ -213,7 +220,7 @@ const UserController = {
     try {
       const user = await User.findById(req.params._id);
       if (user.followers.includes(req.user._id)) {
-        return res.send("Ya estas siguiendo al usuario");
+        return res.status(400).send("Ya estas siguiendo al usuario");
       }
       const follower = await User.findByIdAndUpdate(
         req.params._id,
@@ -225,7 +232,7 @@ const UserController = {
         { $push: { followings: req.params._id } },
         { new: true }
       );
-      res.send(follower);
+      res.send({message: `Acabas de seguir a ${user.name}`,follower});
     } catch (error) {
       console.error(error);
       res.send("Disculpe pos las molestias intenta dentro de 5 minutos...");
@@ -236,7 +243,7 @@ const UserController = {
       const user = await User.findById(req.params._id);
       console.log(user);
       if (!user.followers.includes(req.user._id.toString())) {
-        return res.send("No tienes seguido a este usuario");
+        return res.status(400).send("No tienes seguido a este usuario");
       }
       const follower = await User.findByIdAndUpdate(
         req.params._id,
@@ -248,7 +255,7 @@ const UserController = {
         { $pull: { followings: req.params._id } },
         { new: true }
       );
-      res.send(follower);
+      res.send({message: `Acabas de dejar de seguir a ${user.name}`,follower});
     } catch (error) {
       console.error(error);
       res.send("No es culpa tuya, estamos en ello...");

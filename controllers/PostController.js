@@ -26,9 +26,7 @@ const PostController = {
   async update(req, res) {
     try {
       if (req.files) {
-        console.log(req.files);
         const images = req.files.map((elem) => elem.filename);
-        console.log(images);
         req.body.images = images;
       }
       const posts = await Post.findById(req.params._id);
@@ -60,7 +58,7 @@ const PostController = {
           $pull: { favorites: req.params._id },
         });
       });
-      res.send({ message: "Post eliminado con éxito" });
+      res.send({ message: "Post eliminado con éxito" ,post});
     } catch (error) {
       console.error(error);
       res.status(404).send("Introduce un id de formato correcto");
@@ -97,13 +95,11 @@ const PostController = {
         { $push: { likes: req.user._id.toString() } },
         { new: true }
       );
-      console.log(post.likes);
       const user = await User.findByIdAndUpdate(
         req.user._id,
         { $push: { favorites: req.params._id } },
         { new: true }
       );
-      console.log(user.favorites);
       res.send(post);
     } catch (error) {
       console.error(error);
@@ -166,7 +162,7 @@ const PostController = {
     try {
       const { page = 1, limit = 100 } = req.query;
       const post = await Post.find()
-        .populate("likes", "userId")
+        .populate( "userId")
         .populate("commentIds")
         .limit(limit * 1)
         .skip((page - 1) * limit);
