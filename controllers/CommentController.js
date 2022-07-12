@@ -62,8 +62,8 @@ const CommentController = {
   },
   async delete(req, res) {
     try {
-      await Comment.findByIdAndDelete(req.params._id);
-      res.send("Comentario eliminado");
+      const comment = await Comment.findByIdAndDelete(req.params._id);
+      res.send({message:"Comentario eliminado",comment});
       const userlikes = await User.find({ commentsLikes: req.params._id });
       userlikes.forEach(async (like) => {
         await User.findByIdAndUpdate(like._id, {
