@@ -23,7 +23,7 @@ const CommentController = {
         req.user._id,
         { $push: { commentId: comment._id } },
         { new: true }
-      );
+      )
       res.status(201).send({ message: "Comentario creado", comment });
     } catch (error) {
       console.error(error);
@@ -128,7 +128,8 @@ const CommentController = {
   },
   async getAll(req, res) {
     try {
-      const comments = await Comment.find();
+      const comments = await Comment.find()
+      .populate("userId")
       res.send(comments);
     } catch (error) {
       console.error(error);
