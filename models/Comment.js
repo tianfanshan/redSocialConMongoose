@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const CommentSchema = new mongoose.Schema({
-    comment:String,
-    images:[{
-        type:String,
-        default:''
+    comment: String,
+    images: [{
+        type: String,
+        default: ''
     }],
-    likes:[{type:ObjectId,ref:'User'}],
-    userId:{type:ObjectId,ref:'User'},
-    postId:{type:ObjectId,ref:'Post'},
-},{timestamps:true});
+    likes: [{ type: ObjectId, ref: 'User' }],
+    userId: { type: ObjectId, ref: 'User' },
+    postId: { type: ObjectId, ref: 'Post' },
+}, { timestamps: true });
 
-const Comment = mongoose.model('Comment',CommentSchema);
+const Comment = mongoose.model('Comment', CommentSchema);
 
 module.exports = Comment;

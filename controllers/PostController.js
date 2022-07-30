@@ -17,10 +17,10 @@ const PostController = {
       await User.findByIdAndUpdate(req.user._id, {
         $push: { postIds: post._id },
       });
-      res.status(201).send({message:'post creado con éxito',post});
+      res.status(201).send({ message: 'post creado con éxito', post });
     } catch (error) {
       console.error(error);
-      res.status(404).send({message:"Algo no va bien"});
+      res.status(404).send({ message: "Algo no va bien" });
     }
   },
   async update(req, res) {
@@ -58,7 +58,7 @@ const PostController = {
           $pull: { favorites: req.params._id },
         });
       });
-      res.send({ message: "Post eliminado con éxito" ,post});
+      res.send({ message: "Post eliminado con éxito", post });
     } catch (error) {
       console.error(error);
       res.status(404).send("Introduce un id de formato correcto");
@@ -126,7 +126,7 @@ const PostController = {
         { $pull: { favorites: req.params._id } },
         { $new: true }
       );
-      res.send({user,post});
+      res.send({ user, post });
     } catch (error) {
       console.error(error);
       res.status(404).send("Introduce un id de formato correcto");
@@ -162,7 +162,7 @@ const PostController = {
     try {
       const { page = 1, limit = 100 } = req.query;
       const post = await Post.find()
-        .populate( "userId")
+        .populate("userId")
         .populate("commentIds")
         .limit(limit * 1)
         .skip((page - 1) * limit);

@@ -63,7 +63,7 @@ const CommentController = {
   async delete(req, res) {
     try {
       const comment = await Comment.findByIdAndDelete(req.params._id);
-      res.send({message:"Comentario eliminado",comment});
+      res.send({ message: "Comentario eliminado", comment });
       const userlikes = await User.find({ commentsLikes: req.params._id });
       userlikes.forEach(async (like) => {
         await User.findByIdAndUpdate(like._id, {
@@ -129,13 +129,13 @@ const CommentController = {
   async getAll(req, res) {
     try {
       const comments = await Comment.find()
-      .populate("userId")
+        .populate("userId")
       res.send(comments);
     } catch (error) {
       console.error(error);
     }
   },
-  async getCommentById(req,res){
+  async getCommentById(req, res) {
     try {
       const comment = await Comment.findById(req.params._id)
       res.send(comment)

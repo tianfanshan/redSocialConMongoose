@@ -92,7 +92,6 @@ const UserController = {
         { name, image, role: "user", age, password: hashpassword },
         { new: true }
       );
-      console.log(user);
       res.status(200).send({ message: "Usuario actualizado con éxito", user });
     } catch (error) {
       console.error(error);
@@ -241,7 +240,6 @@ const UserController = {
   async followerOut(req, res) {
     try {
       const user = await User.findById(req.params._id);
-      console.log(user);
       if (!user.followers.includes(req.user._id.toString())) {
         return res.status(400).send("No tienes seguido a este usuario");
       }

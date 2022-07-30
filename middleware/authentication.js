@@ -62,7 +62,6 @@ const isAuthorComment = async (req, res, next) => {
       return res.send("No hemos encontrado el comentario");
     }
     const comment = await Comment.findById(req.params._id);
-    console.log(comment);
     if (comment.userId.toString() !== req.user._id.toString()) {
       return res.status(403).send({ message: "Este comentario no es tuyo" });
     }
